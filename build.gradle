@@ -4,8 +4,12 @@ plugins {
 	id 'java'
 }
 
+def getVersionFromChangelog() {
+  new File("CHANGELOG").readLines().get(0)
+}
+
 group = 'de.joshuaschnabel'
-version = '0.0.1-SNAPSHOT'
+version = "${getVersionFromChangelog()}"
 sourceCompatibility = '11'
 
 configurations {
