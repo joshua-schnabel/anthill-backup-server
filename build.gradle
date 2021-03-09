@@ -2,10 +2,11 @@ plugins {
 	id 'org.springframework.boot' version '2.4.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'eclipse'
 }
 
 def getVersionFromChangelog() {
-  new File("CHANGELOG").readLines().get(0)
+  new File("$rootDir/CHANGELOG").readLines().get(0)
 }
 
 group = 'de.joshuaschnabel'
@@ -28,7 +29,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.session:spring-session-core'
+	implementation 'org.springframework.boot:spring-boot-actuator'
+	implementation 'org.apache.commons:commons-lang3'	
 	compileOnly 'org.projectlombok:lombok'
+	compile 'io.micrometer:micrometer-core'
+	compile 'io.micrometer:micrometer-registry-prometheus'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
