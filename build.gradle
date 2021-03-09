@@ -37,3 +37,41 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+def getCheckedOutGitCommitHash() {
+  'git rev-parse --verify --short HEAD'.execute().text.trim()
+}
+def getCheckedOutGitCommitBranch() {
+  'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+}
+def getCheckedOutGitUncomitted() {
+  'git status -s'.execute().text.size() > 0
+}
+
+bootJar {
+    from('./') { 
+        include 'LICENSE' 
+        into('META-INF/') 
+    }
+	destinationDirectory.set(file("$rootDir/output"))
+	manifest {
+		attributes(
+			'XXX' 						: "${getCheckedOutGitUncomitted()}",
+			'Bundle-Version' 			: "${project.version}",
+			'Revision'    				: "${getCheckedOutGitCommitHash() + (getCheckedOutGitUncomitted()?'-changed':'')}",
+			'Branch'					: "${getCheckedOutGitCommitBranch()}",
+			'Bundle-License' 			: "https://raw.githubusercontent.com/joshua-schnabel/anthill-backup-server/master/LICENSE",			
+			'Bundle-Build-Date' 		: new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+			'Built-By'       			: System.properties['user.name'],
+			'Build-Timestamp'			: new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+			'Build-Revision' 			: "${getCheckedOutGitCommitHash() + (getCheckedOutGitUncomitted()?'-changed':'')}",
+			'Build-Branch' 				: "${getCheckedOutGitCommitBranch()}",
+			'Build-Jdk'      			: "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+			'Implementation-Title'    	: "${rootProject.name}",
+			'Implementation-Version' 	: "${project.version}",
+			'Implementation-Vendor'		: "Joshua Schnabel",
+			'Implementation-Vendor-Id'  : "de.joshuaschnabel",
+			'Created-By'     			: "Gradle ${gradle.gradleVersion}",
+		)
+	}
+}
