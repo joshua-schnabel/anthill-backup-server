@@ -1,6 +1,6 @@
 package de.joshuaschnabel.anthill.domain._types.repository;
 
-import de.joshuaschnabel.anthill.domain._types.Identifier;
+import de.joshuaschnabel.anthill.domain._types.model.Identifier;
 
 public interface DeleteRepository<I extends Identifier<?>> {
 
