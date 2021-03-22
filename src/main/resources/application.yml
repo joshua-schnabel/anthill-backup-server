@@ -11,3 +11,9 @@ management:
     web:
       exposure:
         include: prometheus,health,info,metric
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
